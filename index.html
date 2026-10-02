@@ -2964,15 +2964,136 @@ h2, .section-head h2 { line-height: 1.2; }
 @media (prefers-reduced-motion: reduce) {
   .hero-news, .hero-news__item { transition: none; }
 }
-/* En desktop la frase se alinea con el texto del banner (izquierda del contenedor) */
-@media (min-width: 960px) {
+
+/* Insights: botón «View more» bajo la cuadrícula */
+.feed-more { display: flex; justify-content: center; margin-top: var(--spacing-xl); }
+
+/* Novedades del banner · móvil: la cápsula es la tarjeta; solo etiqueta + frase + flecha */
+.hero-news__card {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  max-width: 100%;
+  padding: 8px 16px 8px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.45);
+  -webkit-backdrop-filter: blur(12px);
+          backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px -16px rgba(11, 46, 90, 0.35);
+  transition: background-color var(--motion-duration-base) var(--motion-easing-standard);
+}
+.hero-news__card:hover { background: rgba(255, 255, 255, 0.7); }
+.hero-news__pill,
+.hero-news__pill:hover {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  -webkit-backdrop-filter: none;
+          backdrop-filter: none;
+  box-shadow: none;
+}
+.hero-news__head { display: inline-flex; flex: 0 0 auto; }
+.hero-news__nav, .hero-news__type { display: none; }
+
+/* Dirección del cambio: ↓ / automático entra desde abajo; ↑ entra desde arriba */
+.hero-news__track[data-dir="prev"] .hero-news__item { transform: translateY(-100%); }
+.hero-news__track[data-dir="prev"] .hero-news__item.is-leaving { transform: translateY(100%); }
+.hero-news__track[data-dir] .hero-news__item.is-current { transform: none; }
+
+/* Novedades del banner · desktop (≥1180 px): tarjeta de cristal ligera abajo a la derecha */
+@media (min-width: 1180px) {
   .hero-news {
-    justify-content: flex-start;
+    bottom: var(--spacing-xl);
     max-width: calc(var(--layout-container-max) + 2 * var(--layout-gutter));
     margin: 0 auto;
-    bottom: var(--spacing-xl);
+    justify-content: flex-end;
   }
+
+  .hero-news__card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    width: 320px;
+    padding: 16px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.16);
+    -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+    box-shadow: none;
+  }
+  .hero-news__card:hover { background: rgba(255, 255, 255, 0.26); }
+
+  .hero-news__head { display: flex; align-items: center; justify-content: space-between; }
+  .hero-news__label {
+    padding: 0;
+    background: none;
+    color: var(--color-semantic-text-secondary);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .hero-news__nav { display: flex; align-items: center; gap: 2px; }
+  .hero-news__btn {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--color-brand-navy);
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color var(--motion-duration-base) var(--motion-easing-standard);
+  }
+  .hero-news__btn:hover { background: rgba(19, 66, 126, 0.08); }
+  .hero-news__btn:focus-visible { outline: 2px solid var(--color-brand-navy); outline-offset: 1px; }
+
+  .hero-news__pill { display: block; }
+  .hero-news__arrow { display: none; }
+  .hero-news__item { display: flex; flex-direction: column; gap: 4px; white-space: normal; }
+  .hero-news__type { display: block; color: var(--color-semantic-text-secondary); font-size: var(--font-size-caption); }
+  .hero-news__text {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: var(--color-brand-navy-deep);
+    font-family: var(--font-family-body);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .hero-news__pill:hover .hero-news__text { text-decoration: underline; text-underline-offset: 3px; }
 }
+@media (prefers-reduced-transparency: reduce) {
+  .hero-news__card { background: var(--color-neutral-white); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+
+/* Barra de progreso de las novedades: se llena en 5 s; en pausa se detiene.
+   En móvil no se ve, pero sigue marcando el ritmo del cambio. */
+.hero-news__card { position: relative; }
+.hero-news__progress { position: absolute; left: 0; bottom: 0; width: 0; height: 0; overflow: hidden; }
+.hero-news__progress i { display: block; height: 100%; transform: scaleX(0); transform-origin: left; background: rgba(19, 66, 126, 0.45); }
+.hero-news__progress i.is-running { animation: news-progress 5s linear forwards; }
+.hero-news.is-paused .hero-news__progress i { animation-play-state: paused; }
+@keyframes news-progress { to { transform: scaleX(1); } }
+@media (min-width: 1180px) {
+  .hero-news__card { overflow: hidden; }
+  .hero-news__progress { left: 20px; right: 20px; bottom: 10px; width: auto; height: 2px; border-radius: 2px; background: rgba(19, 66, 126, 0.1); }
+  .hero-news__card { padding-bottom: 22px; }
+}
+
+/* Banner más bajo en desktop para que los logos de clientes asomen en la primera pantalla */
+@media (min-width: 960px) { .section--hero { min-height: min(66vh, 620px); } }
 
 </style>
 </head>
@@ -3035,19 +3156,32 @@ h2, .section-head h2 { line-height: 1.2; }
           </div>
         </div>
       </div>
-      <!-- Novedades del banner: una sola frase que aparece desde abajo y va cambiando.
-           Al pulsarla lleva a Insights con el filtro correspondiente. [PENDING] hasta tener
-           contenido real; en WordPress, las últimas entradas/eventos. -->
+      <!-- Novedades del banner: eventos y artículos recientes, uno cada vez.
+           Móvil: una frase al pie del banner. Desktop: tarjeta de cristal ligera abajo a la
+           derecha, con flechas ↑ ↓ y barra de progreso. Al pulsar la frase lleva a Insights con el
+           filtro correspondiente. [PENDING] hasta tener contenido real; en WordPress, las
+           últimas entradas/eventos. -->
       <div class="hero-news" data-latest>
-        <a class="hero-news__pill" href="#insights">
-          <span class="hero-news__label">Latest</span>
-          <span class="hero-news__track">
-            <span class="hero-news__item is-current" data-filter-target="event">[PENDING · one-line news about a recent event]</span>
-            <span class="hero-news__item" data-filter-target="insight" aria-hidden="true">[PENDING · one-line news about a new article]</span>
-            <span class="hero-news__item" data-filter-target="event" aria-hidden="true">[PENDING · one-line news about a collaboration]</span>
-          </span>
-          <span class="hero-news__arrow" aria-hidden="true">→</span>
-        </a>
+        <div class="hero-news__card">
+          <div class="hero-news__head">
+            <span class="hero-news__label">Latest</span>
+            <div class="hero-news__nav">
+              <button class="hero-news__btn" type="button" data-news-prev aria-label="Previous news">↑</button>
+              <button class="hero-news__btn" type="button" data-news-next aria-label="Next news">↓</button>
+            </div>
+          </div>
+          <a class="hero-news__pill" href="#insights">
+            <span class="hero-news__track">
+              <span class="hero-news__item is-current" data-filter-target="event"><span class="hero-news__type">Event · [date]</span> <span class="hero-news__text">[PENDING · one-line news about a recent event]</span></span>
+              <span class="hero-news__item" data-filter-target="insight" aria-hidden="true"><span class="hero-news__type">Insight · [date]</span> <span class="hero-news__text">[PENDING · title of a new article]</span></span>
+              <span class="hero-news__item" data-filter-target="event" aria-hidden="true"><span class="hero-news__type">Collaboration · [date]</span> <span class="hero-news__text">[PENDING · one-line news about a collaboration]</span></span>
+              <span class="hero-news__item" data-filter-target="insight" aria-hidden="true"><span class="hero-news__type">Insight · [date]</span> <span class="hero-news__text">[PENDING · title of another article]</span></span>
+            </span>
+            <span class="hero-news__arrow" aria-hidden="true">→</span>
+          </a>
+          <!-- Barra de progreso: se llena en 5 s y pasa a la siguiente novedad -->
+          <span class="hero-news__progress" aria-hidden="true"><i></i></span>
+        </div>
       </div>
     </section>
 
@@ -3506,6 +3640,10 @@ h2, .section-head h2 { line-height: 1.2; }
             </article>
           </li>
         </ul>
+        <!-- Enlace al archivo completo del blog. [PENDIENTE] En WordPress, la URL de la página de entradas. -->
+        <div class="feed-more">
+          <a class="btn btn--secondary" href="#">View more</a>
+        </div>
       </div>
 
       <!-- Visor de las fotos -->
@@ -4216,32 +4354,47 @@ h2, .section-head h2 { line-height: 1.2; }
     });
   }
 
-  // Banner (v05): una frase de novedades al pie. Aparece desde abajo al cargar y va
-  // cambiando cada 5 s (la anterior sale hacia arriba, la nueva entra desde abajo).
-  // Se pausa con el ratón encima, con el foco o fuera de pantalla. Al pulsar, lleva a
-  // Insights con el filtro de la novedad visible. Con reduced-motion: frase fija.
+  // Banner (v05): novedades. Muestra eventos y artículos de uno en uno. La barra de
+  // progreso se llena en 5 s (CSS) y, al terminar, pasa a la siguiente; las flechas ↑ ↓
+  // (desktop) cambian a mano y reinician la barra. ↓ / automático: la nueva entra desde
+  // abajo; ↑ desde arriba. Se pausa con el ratón encima, con el foco o fuera de pantalla.
+  // Al pulsar la frase lleva a Insights con su filtro. Reduced-motion: sin rotar.
   var news = document.querySelector('[data-latest]');
   if (news) {
     var nItems = [].slice.call(news.querySelectorAll('.hero-news__item'));
+    var nTrack = news.querySelector('.hero-news__track');
     var nLink = news.querySelector('.hero-news__pill');
+    var nBar = news.querySelector('.hero-news__progress i');
     var nReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var nIndex = 0, nTimer = null, nPaused = false, nVisible = true;
+    var nIndex = 0, nPaused = false, nVisible = true;
 
-    var nShow = function (i) {
+    var nRestart = function () {
+      if (!nBar || nReduce || nItems.length < 2) return;
+      nBar.classList.remove('is-running');
+      void nBar.offsetWidth;   // reinicia la animación de la barra
+      nBar.classList.add('is-running');
+    };
+    var nSync = function () { news.classList.toggle('is-paused', nPaused || !nVisible); };
+    var nShow = function (i, dir) {
+      i = (i + nItems.length) % nItems.length;
+      if (i === nIndex) return;
+      nTrack.setAttribute('data-dir', dir || 'next');
+      void nTrack.offsetWidth;   // aplica la posición de entrada antes de animar
       var old = nItems[nIndex];
       old.classList.remove('is-current');
       old.classList.add('is-leaving');
       old.setAttribute('aria-hidden', 'true');
       setTimeout(function () { old.classList.remove('is-leaving'); }, 500);
-      nIndex = (i + nItems.length) % nItems.length;
+      nIndex = i;
       nItems[nIndex].classList.add('is-current');
       nItems[nIndex].removeAttribute('aria-hidden');
+      nRestart();
     };
-    var nRun = function () {
-      clearInterval(nTimer);
-      if (nPaused || !nVisible || nItems.length < 2) return;
-      nTimer = setInterval(function () { nShow(nIndex + 1); }, 5000);
-    };
+
+    if (nBar) nBar.addEventListener('animationend', function () { nShow(nIndex + 1, 'next'); });
+    var nPrev = news.querySelector('[data-news-prev]'), nNext = news.querySelector('[data-news-next]');
+    if (nPrev) nPrev.addEventListener('click', function () { nShow(nIndex - 1, 'prev'); });
+    if (nNext) nNext.addEventListener('click', function () { nShow(nIndex + 1, 'next'); });
 
     if (nLink) {
       nLink.addEventListener('click', function () {
@@ -4254,18 +4407,17 @@ h2, .section-head h2 { line-height: 1.2; }
     if (nReduce) {
       news.classList.add('is-in');
     } else {
-      setTimeout(function () { news.classList.add('is-in'); }, 1200);   // aparece desde abajo
-      news.addEventListener('mouseenter', function () { nPaused = true; nRun(); });
-      news.addEventListener('mouseleave', function () { nPaused = false; nRun(); });
-      news.addEventListener('focusin', function () { nPaused = true; nRun(); });
-      news.addEventListener('focusout', function () { nPaused = false; nRun(); });
+      setTimeout(function () { news.classList.add('is-in'); nRestart(); }, 1200);   // aparece desde abajo
+      news.addEventListener('mouseenter', function () { nPaused = true; nSync(); });
+      news.addEventListener('mouseleave', function () { nPaused = false; nSync(); });
+      news.addEventListener('focusin', function () { nPaused = true; nSync(); });
+      news.addEventListener('focusout', function () { nPaused = false; nSync(); });
       if ('IntersectionObserver' in window) {
         new IntersectionObserver(function (entries) {
           nVisible = entries[entries.length - 1].isIntersecting;
-          nRun();
+          nSync();
         }).observe(news);
       }
-      nRun();
     }
   }
 
