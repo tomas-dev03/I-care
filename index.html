@@ -3095,6 +3095,28 @@ h2, .section-head h2 { line-height: 1.2; }
 /* Banner más bajo en desktop para que los logos de clientes asomen en la primera pantalla */
 @media (min-width: 960px) { .section--hero { min-height: min(66vh, 620px); } }
 
+/* ==========================================================================
+   Pulido final (impeccable · polish)
+   ========================================================================== */
+/* Títulos equilibrados y párrafos sin palabras huérfanas («expansion.» sola en una línea) */
+h1, h2, h3, .display { text-wrap: balance; }
+p, li, figcaption { text-wrap: pretty; }
+
+/* Selección de texto en el tono de la marca */
+::selection { background: rgba(19, 66, 126, 0.16); color: var(--color-brand-navy-deep); }
+
+/* Respuesta táctil al pulsar: el botón «baja» 1 px */
+.btn:active,
+.feed-filter__btn:active,
+.hero-news__btn:active,
+.lightbox__btn:active { transform: translateY(1px); }
+
+/* Medida de lectura: el párrafo de «How we work» llegaba a ~76 caracteres por línea */
+#como-trabajamos .lead { max-width: 65ch; }
+
+/* Botón del menú móvil: área táctil mínima de 44 px */
+.nav-toggle { min-width: 44px; min-height: 44px; }
+
 </style>
 </head>
 <body>
