@@ -3117,6 +3117,207 @@ p, li, figcaption { text-wrap: pretty; }
 /* Botón del menú móvil: área táctil mínima de 44 px */
 .nav-toggle { min-width: 44px; min-height: 44px; }
 
+/* Boletín en la sección de contacto (fondo oscuro) */
+.newsletter {
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  max-width: 440px;
+}
+.newsletter__title {
+  margin: 0;
+  color: var(--color-neutral-white);
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-h4);
+  font-weight: 600;
+}
+.newsletter__text { margin: var(--spacing-2xs) 0 var(--spacing-sm); color: rgba(218, 236, 248, 0.85); }
+.newsletter__row { display: flex; flex-wrap: wrap; gap: var(--spacing-xs); }
+.newsletter__row input {
+  flex: 1 1 220px;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0 var(--spacing-sm);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-neutral-white);
+  font: inherit;
+  transition: border-color var(--motion-duration-fast) var(--motion-easing-standard), background-color var(--motion-duration-fast) var(--motion-easing-standard);
+}
+.newsletter__row input::placeholder { color: rgba(255, 255, 255, 0.7); }
+.newsletter__row input:hover { border-color: rgba(255, 255, 255, 0.55); }
+.newsletter__row input:focus-visible { outline: 2px solid var(--color-brand-sky); outline-offset: 2px; background: rgba(255, 255, 255, 0.12); }
+.newsletter__btn { flex: 0 0 auto; border-radius: var(--radius-sm); }
+.newsletter.is-error input { border-color: #FCA5A5; }
+.newsletter__note { margin: var(--spacing-xs) 0 0; color: rgba(218, 236, 248, 0.75); font-size: var(--font-size-small); }
+.newsletter__note a { color: var(--color-neutral-white); }
+.newsletter__status:empty { display: none; }
+.newsletter__status { margin: var(--spacing-xs) 0 0; color: var(--color-neutral-white); font-size: var(--font-size-small); font-weight: 600; }
+.newsletter.is-error .newsletter__status { color: #FCA5A5; }
+
+/* ==========================================================================
+   Asistente (chatbot): botón fijo abajo a la derecha + panel de chat
+   ========================================================================== */
+.chat { position: fixed; right: var(--spacing-md); bottom: var(--spacing-md); z-index: 90; }
+.chat__launcher {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-brand-navy);
+  color: var(--color-neutral-white);
+  cursor: pointer;
+  box-shadow: 0 12px 28px -12px rgba(11, 46, 90, 0.55);
+  transition: background-color var(--motion-duration-fast) var(--motion-easing-standard), transform var(--motion-duration-fast) var(--motion-easing-standard);
+}
+.chat__launcher:hover { background: var(--color-brand-navy-deep); }
+.chat__launcher:active { transform: translateY(1px); }
+.chat__launcher:focus-visible { outline: 2px solid var(--color-brand-navy); outline-offset: 3px; }
+.chat__icon { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.chat__icon--close, .chat.is-open .chat__icon--open { display: none; }
+.chat.is-open .chat__icon--close { display: block; }
+
+.chat__panel {
+  position: fixed;
+  right: var(--spacing-md);
+  bottom: calc(var(--spacing-md) + 56px + 12px);
+  display: flex;
+  flex-direction: column;
+  width: 360px;
+  height: min(560px, calc(100dvh - 140px));
+  overflow: hidden;
+  border: 1px solid rgba(11, 46, 90, 0.08);
+  border-radius: var(--radius-md);
+  background: var(--color-neutral-white);
+  box-shadow: 0 28px 64px -24px rgba(11, 46, 90, 0.4);
+  opacity: 0;
+  transform: translateY(12px) scale(0.98);
+  transform-origin: bottom right;
+  transition: opacity 200ms var(--motion-easing-out), transform 240ms var(--motion-easing-out);
+}
+.chat.is-open .chat__panel { opacity: 1; transform: none; }
+.chat__panel[hidden] { display: none; }
+
+.chat__head {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: 14px 16px;
+  background: var(--color-brand-navy-deep);
+  color: var(--color-neutral-white);
+}
+.chat__avatar { display: grid; place-items: center; flex: 0 0 auto; width: 36px; height: 36px; border-radius: 50%; background: var(--color-neutral-white); }
+.chat__avatar img { width: 20px; height: auto; }
+.chat__title { margin: 0; font-family: var(--font-family-ui); font-weight: 700; font-size: var(--font-size-body); line-height: 1.2; }
+.chat__sub { margin: 2px 0 0; color: rgba(218, 236, 248, 0.8); font-size: var(--font-size-caption); }
+.chat__close {
+  display: grid; place-items: center;
+  width: 36px; height: 36px; margin-left: auto; padding: 0;
+  border: 0; border-radius: 50%; background: transparent; color: var(--color-neutral-white); cursor: pointer;
+}
+.chat__close:hover { background: rgba(255, 255, 255, 0.12); }
+.chat__close:focus-visible { outline: 2px solid var(--color-brand-sky); outline-offset: 1px; }
+.chat__close svg, .chat__send svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.chat__log {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.chat__msg {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: var(--font-size-small);
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+.chat__msg--bot { align-self: flex-start; border-bottom-left-radius: 4px; background: #F1F5FA; color: var(--color-brand-navy-deep); }
+.chat__msg--user { align-self: flex-end; border-bottom-right-radius: 4px; background: var(--color-brand-navy); color: var(--color-neutral-white); }
+.chat__msg a { color: var(--color-brand-navy); font-weight: 600; text-underline-offset: 2px; }
+
+.chat__typing { display: inline-flex; gap: 4px; padding: 4px 0; }
+.chat__typing i { width: 6px; height: 6px; border-radius: 50%; background: rgba(19, 66, 126, 0.45); animation: chat-dot 1s infinite ease-in-out; }
+.chat__typing i:nth-child(2) { animation-delay: 0.15s; }
+.chat__typing i:nth-child(3) { animation-delay: 0.3s; }
+@keyframes chat-dot { 0%, 80%, 100% { opacity: 0.3; transform: none; } 40% { opacity: 1; transform: translateY(-3px); } }
+
+.chat__chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 16px 12px; }
+.chat__chip {
+  padding: 6px 12px;
+  border: 1px solid rgba(19, 66, 126, 0.3);
+  border-radius: var(--radius-pill);
+  background: var(--color-neutral-white);
+  color: var(--color-brand-navy);
+  font: inherit;
+  font-size: var(--font-size-caption);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--motion-duration-fast) var(--motion-easing-standard);
+}
+.chat__chip:hover { background: #F1F5FA; }
+.chat__chip:active { transform: translateY(1px); }
+.chat__chip:focus-visible { outline: 2px solid var(--color-brand-navy); outline-offset: 2px; }
+
+.chat__form { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-top: 1px solid rgba(11, 46, 90, 0.08); }
+.chat__form input {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid rgba(11, 46, 90, 0.16);
+  border-radius: var(--radius-sm);
+  font: inherit;
+  font-size: var(--font-size-small);
+  color: var(--color-brand-navy-deep);
+}
+.chat__form input:focus-visible { outline: 2px solid var(--color-brand-navy); outline-offset: 1px; border-color: transparent; }
+.chat__send {
+  display: grid; place-items: center; flex: 0 0 auto;
+  width: 44px; height: 44px; padding: 0;
+  border: 0; border-radius: var(--radius-sm);
+  background: var(--color-brand-navy); color: var(--color-neutral-white); cursor: pointer;
+}
+.chat__send:hover { background: var(--color-brand-navy-deep); }
+.chat__send:active { transform: translateY(1px); }
+.chat__send:focus-visible { outline: 2px solid var(--color-brand-navy); outline-offset: 2px; }
+
+/* Móvil: el panel ocupa casi toda la pantalla */
+@media (max-width: 599px) {
+  .chat { right: var(--spacing-sm); bottom: var(--spacing-sm); }
+  .chat__panel { left: var(--spacing-xs); right: var(--spacing-xs); bottom: calc(var(--spacing-sm) + 56px + 8px); width: auto; height: calc(100dvh - 120px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chat__panel { transition: none; }
+  .chat__typing i { animation: none; opacity: 0.6; }
+}
+
+/* Preguntas sugeridas del chat: una sola fila con scroll horizontal (bordes difuminados) */
+.chat__chips {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: 16px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(19, 66, 126, 0.25) transparent;
+  padding-bottom: 10px;
+  margin-bottom: 2px;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 28px), transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 28px), transparent 100%);
+}
+.chat__chips::-webkit-scrollbar { height: 4px; }
+.chat__chips::-webkit-scrollbar-thumb { border-radius: 4px; background: rgba(19, 66, 126, 0.25); }
+.chat__chip { flex: 0 0 auto; white-space: nowrap; scroll-snap-align: start; }
+.chat__chip:last-child { margin-right: 16px; }
+
 </style>
 </head>
 <body>
@@ -3702,6 +3903,21 @@ p, li, figcaption { text-wrap: pretty; }
                 <span>Barcelona</span>
               </li>
             </ul>
+
+            <!-- Boletín: suscripción con el email. Texto de interfaz, no está en el texto aprobado.
+                 [PENDIENTE] En WordPress se conecta al servicio de envíos (p. ej. MailPoet o Mailchimp).
+                 Prototipo: solo valida, no guarda datos. -->
+            <form class="newsletter" id="form-newsletter" novalidate aria-labelledby="newsletter-titulo">
+              <h3 id="newsletter-titulo" class="newsletter__title">Stay informed</h3>
+              <p class="newsletter__text">Receive our latest insights, events and news by email.</p>
+              <div class="newsletter__row">
+                <label class="sr-only" for="n-email">Email</label>
+                <input id="n-email" name="newsletter-email" type="email" autocomplete="email" placeholder="name@company.com" required>
+                <button class="btn btn--primary newsletter__btn" type="submit">Subscribe</button>
+              </div>
+              <p class="newsletter__note">You can unsubscribe at any time. See our <a href="#">privacy policy</a>.</p>
+              <p class="newsletter__status" role="status" aria-live="polite"></p>
+            </form>
           </div>
           <!-- Formulario: no está en el texto aprobado (etiquetas de interfaz). Prototipo: solo valida. -->
           <div class="col col--contact-form">
@@ -3786,6 +4002,37 @@ p, li, figcaption { text-wrap: pretty; }
       </div>
     </div>
   </footer>
+
+  <!-- Asistente (chatbot) en la parte derecha de la pantalla. Prototipo: responde con textos
+       de esta misma web (servicios, categorías, método, equipo, contacto) y deriva al
+       formulario. [PENDIENTE] En WordPress se conecta a un servicio de chat real. -->
+  <div class="chat" data-chat>
+    <button class="chat__launcher" type="button" aria-expanded="false" aria-controls="chat-panel" aria-label="Open chat">
+      <svg class="chat__icon chat__icon--open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 10h8M8 13h5"/></svg>
+      <svg class="chat__icon chat__icon--close" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <section class="chat__panel" id="chat-panel" role="dialog" aria-labelledby="chat-title" hidden>
+      <header class="chat__head">
+        <span class="chat__avatar"><img src="assets/web/logo-icare.png" alt="" width="301" height="376"></span>
+        <div>
+          <p class="chat__title" id="chat-title">I-Care assistant</p>
+          <p class="chat__sub">Answers based on our website</p>
+        </div>
+        <button class="chat__close" type="button" aria-label="Close chat">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </header>
+      <div class="chat__log" role="log" aria-live="polite"></div>
+      <div class="chat__chips" aria-label="Suggested questions"></div>
+      <form class="chat__form" novalidate>
+        <label class="sr-only" for="chat-input">Your question</label>
+        <input id="chat-input" type="text" autocomplete="off" placeholder="Type your question…">
+        <button class="chat__send" type="submit" aria-label="Send">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </form>
+    </section>
+  </div>
 
   <script>
 /* I-Care Consulting · Prototipo
@@ -4594,6 +4841,129 @@ p, li, figcaption { text-wrap: pretty; }
     status.textContent = 'Thank you. This is a prototype: your message has not been sent.';
     form.reset();
   });
+
+  // Boletín (prototipo: solo valida el email, no guarda datos)
+  var newsletter = document.getElementById('form-newsletter');
+  if (newsletter) {
+    var nlEmail = newsletter.querySelector('input[type="email"]');
+    var nlStatus = newsletter.querySelector('.newsletter__status');
+    newsletter.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var ok = nlEmail.checkValidity() && nlEmail.value.trim() !== '';
+      nlEmail.setAttribute('aria-invalid', String(!ok));
+      newsletter.classList.toggle('is-error', !ok);
+      if (!ok) {
+        nlStatus.textContent = 'Please enter a valid email address.';
+        nlEmail.focus();
+        return;
+      }
+      nlStatus.textContent = 'Thank you for subscribing. This is a prototype: your email has not been saved.';
+      newsletter.reset();
+    });
+  }
+
+  // Asistente (chatbot, prototipo): botón fijo abajo a la derecha que abre un panel de chat.
+  // Responde con textos de la propia web según palabras clave, con preguntas sugeridas;
+  // si no entiende, deriva al formulario de contacto. Escape cierra; el foco vuelve al botón.
+  var chat = document.querySelector('[data-chat]');
+  if (chat) {
+    var chatBtn = chat.querySelector('.chat__launcher');
+    var chatPanel = chat.querySelector('.chat__panel');
+    var chatLog = chat.querySelector('.chat__log');
+    var chatChips = chat.querySelector('.chat__chips');
+    var chatForm = chat.querySelector('.chat__form');
+    var chatInput = chat.querySelector('#chat-input');
+    var chatReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var chatStarted = false;
+
+    var KB = [
+      { q: 'What services do you offer?', keys: ['service', 'solution', 'offer', 'pillar', 'help', 'do you do', 'consult'],
+        a: 'We work across 4 strategic pillars: senior strategic support on demand; marketing intelligence; influence communication, credibility and community management; and cutting-edge solutions for consumer health. <a href="#soluciones">See our solutions</a>' },
+      { q: 'Which product categories do you cover?', keys: ['categor', 'product', 'medicine', 'drug', 'otc', 'food', 'supplement', 'cosmetic', 'dermo', 'biotech', 'nutra'],
+        a: 'Medicines, OTC and self-care, functional foods, food supplements, cosmetics and dermocosmetics, and biotechnology. <a href="#quienes-somos">About us</a>' },
+      { q: 'How do you work?', keys: ['work', 'process', 'method', 'step', 'phase', 'start'],
+        a: 'In 4 phases: a discovery conversation, diagnosis and strategic plan, implementation, and follow-up with next steps. <a href="#como-trabajamos">How we work</a>' },
+      { q: 'Who is on the team?', keys: ['team', 'who', 'partner', 'carine', 'yann', 'founder', 'people'],
+        a: 'Carine Emsellem, Founder &amp; Managing Director, and Yann Gaslain, Partner &amp; Associate Director. <a href="#equipo">Meet the team</a>' },
+      { q: 'How can I contact you?', keys: ['contact', 'email', 'mail', 'call', 'phone', 'meet', 'talk', 'book', 'price', 'cost', 'quote', 'budget'],
+        a: 'Write to <a href="mailto:carine.emsellem@i-careconsulting.com">carine.emsellem@i-careconsulting.com</a> or use our <a href="#contacto">contact form</a>, and a partner will get back to you.' }
+    ];
+    var FALLBACK = 'I can help with our services, product categories, way of working, team and contact. For anything else, our partners will answer personally through the <a href="#contacto">contact form</a>.';
+
+    var addMsg = function (who, content, isHtml) {
+      var el = document.createElement('div');
+      el.className = 'chat__msg chat__msg--' + who;
+      if (isHtml) el.innerHTML = content; else el.textContent = content;
+      chatLog.appendChild(el);
+      chatLog.scrollTop = chatLog.scrollHeight;
+      return el;
+    };
+    var botSay = function (html) {
+      if (chatReduce) { addMsg('bot', html, true); return; }
+      var typing = addMsg('bot', '<span class="chat__typing" aria-label="Typing"><i></i><i></i><i></i></span>', true);
+      setTimeout(function () { typing.innerHTML = html; chatLog.scrollTop = chatLog.scrollHeight; }, 650);
+    };
+    var answer = function (text) {
+      var t = text.toLowerCase(), best = null, score = 0;
+      KB.forEach(function (item) {
+        var s = item.keys.filter(function (k) { return t.indexOf(k) !== -1; }).length;
+        if (s > score) { score = s; best = item; }
+      });
+      return best ? best.a : FALLBACK;
+    };
+    var ask = function (text) {
+      addMsg('user', text, false);
+      botSay(answer(text));
+    };
+
+    KB.forEach(function (item) {
+      var chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'chat__chip';
+      chip.textContent = item.q;
+      chip.addEventListener('click', function () { addMsg('user', item.q, false); botSay(item.a); });
+      chatChips.appendChild(chip);
+    });
+
+    // Con ratón, la rueda vertical desplaza la fila de preguntas en horizontal
+    chatChips.addEventListener('wheel', function (e) {
+      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX) || chatChips.scrollWidth <= chatChips.clientWidth) return;
+      e.preventDefault();
+      chatChips.scrollLeft += e.deltaY;
+    }, { passive: false });
+
+    var openChat = function () {
+      chatPanel.hidden = false;
+      requestAnimationFrame(function () { chat.classList.add('is-open'); });
+      chatBtn.setAttribute('aria-expanded', 'true');
+      chatBtn.setAttribute('aria-label', 'Close chat');
+      if (!chatStarted) { chatStarted = true; botSay('Hello! I’m the I-Care assistant. How can I help you?'); }
+      setTimeout(function () { chatInput.focus(); }, 50);
+    };
+    var closeChat = function (returnFocus) {
+      chat.classList.remove('is-open');
+      chatBtn.setAttribute('aria-expanded', 'false');
+      chatBtn.setAttribute('aria-label', 'Open chat');
+      setTimeout(function () { if (!chat.classList.contains('is-open')) chatPanel.hidden = true; }, chatReduce ? 0 : 200);
+      if (returnFocus) chatBtn.focus();
+    };
+
+    chatBtn.addEventListener('click', function () { if (chat.classList.contains('is-open')) closeChat(false); else openChat(); });
+    chat.querySelector('.chat__close').addEventListener('click', function () { closeChat(true); });
+    chat.addEventListener('keydown', function (e) { if (e.key === 'Escape' && chat.classList.contains('is-open')) closeChat(true); });
+    chatForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var v = chatInput.value.trim();
+      if (!v) return;
+      chatInput.value = '';
+      ask(v);
+    });
+    // Un enlace del chat lleva a su sección; en móvil el panel ocupa la pantalla, así que se cierra
+    chatLog.addEventListener('click', function (e) {
+      var link = e.target.closest('a[href^="#"]');
+      if (link && window.matchMedia('(max-width: 599px)').matches) closeChat(false);
+    });
+  }
 
   document.getElementById('year').textContent = new Date().getFullYear();
 })();
